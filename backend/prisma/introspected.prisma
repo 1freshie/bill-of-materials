@@ -1,0 +1,51 @@
+model BOM {
+  PRODUCT_ID  Decimal   @db.Decimal(18, 0)
+  MATERIAL_ID Decimal   @db.Decimal(18, 0)
+  BOM_QTY     Decimal   @db.Decimal(10, 3)
+  MATERIALS   MATERIALS @relation(fields: [MATERIAL_ID], references: [MATERIAL_ID], onUpdate: NoAction, map: "FK_BOM_REFERENCE_MATERIAL")
+  PRODUCT     PRODUCT   @relation(fields: [PRODUCT_ID], references: [PRODUCT_ID], onUpdate: NoAction, map: "FK_BOM_REFERENCE_PRODUCT")
+
+  @@id([PRODUCT_ID, MATERIAL_ID], map: "PK_BOM")
+}
+
+model EXPENCES {
+  EXPENCE_ID     Decimal          @id(map: "PK_EXPENCES") @db.Decimal(18, 0)
+  EXPENCE_NAME   String           @unique(map: "IDX_EXPRENCE_UQ") @db.VarChar(20)
+  OTHER_EXPENCES OTHER_EXPENCES[]
+}
+
+model MATERIALS {
+  MATERIAL_ID          Decimal      @id(map: "PK_MATERIALS") @db.Decimal(18, 0)
+  MATERIAL_NAME        String       @unique(map: "IDX_MATERIALS_UQ") @db.VarChar(50)
+  MATERIAL_DESCRIPTION String?      @db.VarChar(400)
+  MATERIAL_MEASURE     String?      @db.VarChar(20)
+  BOM                  BOM[]
+  PRICE_LIST           PRICE_LIST[]
+}
+
+model OTHER_EXPENCES {
+  PRODUCT_ID     Decimal  @db.Decimal(18, 0)
+  EXPENCE_ID     Decimal  @db.Decimal(18, 0)
+  EXPRENCE_VALUE Decimal  @db.Decimal(10, 2)
+  EXPENCES       EXPENCES @relation(fields: [EXPENCE_ID], references: [EXPENCE_ID], onUpdate: NoAction, map: "FK_OTHER_EX_REFERENCE_EXPENCES")
+  PRODUCT        PRODUCT  @relation(fields: [PRODUCT_ID], references: [PRODUCT_ID], onUpdate: NoAction, map: "FK_OTHER_EX_REFERENCE_PRODUCT")
+
+  @@id([PRODUCT_ID, EXPENCE_ID], map: "PK_OTHER_EXPENCES")
+}
+
+model PRICE_LIST {
+  MATERIAL_ID Decimal   @db.Decimal(18, 0)
+  PRICE_DATE  DateTime  @db.Date
+  PRICE_PRICE Decimal   @db.Decimal(10, 2)
+  MATERIALS   MATERIALS @relation(fields: [MATERIAL_ID], references: [MATERIAL_ID], onUpdate: NoAction, map: "FK_PRICE_LI_REFERENCE_MATERIAL")
+
+  @@id([MATERIAL_ID, PRICE_DATE, PRICE_PRICE], map: "PK_PRICE_LIST")
+}
+
+model PRODUCT {
+  PRODUCT_ID          Decimal          @id(map: "PK_PRODUCT") @db.Decimal(18, 0)
+  PRODUCT_NAME        String           @unique(map: "IDX_PRODUCT_UQ") @db.VarChar(50)
+  PRODUCT_DESCRIPTION String?          @db.VarChar(100)
+  BOM                 BOM[]
+  OTHER_EXPENCES      OTHER_EXPENCES[]
+}

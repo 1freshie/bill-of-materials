@@ -1,0 +1,9 @@
+model USER {
+  ID         String   @id @default(uuid()) @map("USER_ID") @db.UniqueIdentifier
+  EMAIL      String   @unique @db.VarChar(255)
+  PASSWORD   String   @db.VarChar(255)
+  CREATED_AT DateTime @default(now()) @map("CREATED_AT")
+  UPDATED_AT DateTime @updatedAt @map("UPDATED_AT")
+
+  @@map("users")
+}
