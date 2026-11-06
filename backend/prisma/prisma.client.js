@@ -1,13 +1,15 @@
 import { PrismaMssql } from "@prisma/adapter-mssql";
-import { PrismaClient } from "../generated/prisma";
+import { PrismaClient } from "../generated/prisma/index.js";
+import "dotenv/config";
 
 const config = {
   server: "localhost",
-  port: 51041,
+  port: +process.env.DATABASE_PORT,
   database: "BillOfMaterials",
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
   options: {
     trustServerCertificate: true,
-    integratedSecurity: true,
   },
 };
 
