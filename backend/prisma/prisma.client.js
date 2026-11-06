@@ -3,7 +3,7 @@ import { PrismaClient } from "../generated/prisma/index.js";
 import "dotenv/config";
 
 const config = {
-  server: "localhost",
+  server: process.env.DATABASE_SERVER_NAME,
   port: +process.env.DATABASE_PORT,
   database: "BillOfMaterials",
   user: process.env.DATABASE_USER,
