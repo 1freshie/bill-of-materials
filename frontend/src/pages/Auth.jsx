@@ -8,10 +8,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Auth() {
-  const navigate = useNavigate();
+  const { user, login, register } = useAuth();
 
   // State за превключване между Вход и Регистрация
   const [isLogin, setIsLogin] = useState(true);
@@ -24,30 +25,21 @@ export default function Auth() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    // Определяме кой endpoint да извикаме
-    const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
-
     try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Възникна грешка");
+      if (isLogin) {
+        await login(email, password);
+      } else {
+        await register(email, password);
       }
-
-      // Успех! Запазваме токена и пренасочваме към таблото
-      localStorage.setItem("token", data.token);
-      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     } finally {

@@ -1,13 +1,21 @@
+import { Box, CircularProgress } from "@mui/material";
 import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function ProtectedRoute({ children }) {
-  const token = localStorage.getItem("token");
+  const { user, loading } = useAuth();
 
-  // Ако няма токен, пренасочваме към страницата за вход/регистрация
-  if (!token) {
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" mt={10}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (!user) {
     return <Navigate to="/auth" replace />;
   }
 
-  // Ако има токен, показваме заявения компонент (напр. Dashboard)
   return children;
 }

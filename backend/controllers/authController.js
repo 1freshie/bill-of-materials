@@ -2,6 +2,15 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import prisma from "../prisma/prisma.client.js";
 
+function sendTokenCookie(res, token) {
+  res.cookie("token", token, {
+    httpOnly: true, // Браузърът не позволява достъп чрез JavaScript (защита от XSS)
+    secure: process.env.NODE_ENV === "production", // Само по HTTPS в production
+    sameSite: "strict", // Защита от CSRF атаки
+    maxAge: 2 * 60 * 60 * 1000, // 2 часа
+  });
+}
+
 export async function login(req, res) {
   try {
     const { email, password } = req.body;
@@ -37,10 +46,11 @@ export async function login(req, res) {
       { expiresIn: "2h" },
     );
 
-    // 5. Успешен отговор (Връщаме токена и данните без паролата)
+    sendTokenCookie(res, token); // Изпращаме бисквитката
+
+    // 5. Успешен отговор (Връщаме данните без паролата)
     res.json({
       message: "Успешен вход",
-      token: token,
       user: {
         id: user.ID,
         email: user.EMAIL,
@@ -96,10 +106,11 @@ export async function register(req, res) {
       { expiresIn: "2h" },
     );
 
+    sendTokenCookie(res, token); // Изпращаме бисквитката
+
     // 6. Връщане на отговор без хешираната парола
     res.status(201).json({
       message: "Успешна регистрация!",
-      token: token,
       user: {
         id: newUser.ID,
         email: newUser.EMAIL,
@@ -112,4 +123,15 @@ export async function register(req, res) {
       .status(500)
       .json({ error: "Възникна сървърна грешка при регистрацията." });
   }
+}
+
+export function logout(req, res) {
+  res.clearCookie("token"); // Изтриваме бисквитката
+  res.json({ message: "Успешен изход" });
+}
+
+// Проверка на текущия потребител
+export async function getMe(req, res) {
+  // Този метод ще се предпазва от verifyToken, така че req.user ще съществува
+  res.json({ user: req.user });
 }
