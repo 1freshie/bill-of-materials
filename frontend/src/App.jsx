@@ -3,6 +3,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
+import Materials from "./pages/Materials";
 
 function App() {
   return (
@@ -22,6 +23,16 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="/materials"
+            element={
+              <ProtectedRoute>
+                <Materials />
+              </ProtectedRoute>
+            }
+          />
+
         </Routes>
       </AuthProvider>
     </BrowserRouter>
