@@ -17,11 +17,20 @@ const emptyForm = {
 
 const measures = [{
     MATERIAL_MEASURE: "kg",
-    MATERIAL_MEASURE_LABEL: "Килограм",
+    MATERIAL_MEASURE_LABEL: "Килограм(кг)",
 }, {
 
     MATERIAL_MEASURE: "m",
-    MATERIAL_MEASURE_LABEL: "Метър",
+    MATERIAL_MEASURE_LABEL: "Метър(м.)",
+
+}, {MATERIAL_MEASURE: "бр.",
+    MATERIAL_MEASURE_LABEL: "Брой(бр.)",
+
+}, {MATERIAL_MEASURE: "m^2",
+    MATERIAL_MEASURE_LABEL: "Квадратен метър(m^2)",
+
+    }, {MATERIAL_MEASURE: "l",
+    MATERIAL_MEASURE_LABEL: "Литър(l)",
 }];
 
 export default function MaterialDialog({

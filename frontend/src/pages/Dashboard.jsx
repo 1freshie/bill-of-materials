@@ -43,6 +43,14 @@ export default function Dashboard() {
           Материали
         </Button>
 
+        <Button
+          variant="contained"
+          onClick={() => navigate("/expenses")}
+          sx={{ mr: 4 }}
+        >
+          Разходи
+        </Button>
+
       </Box>
     </Container>
   );

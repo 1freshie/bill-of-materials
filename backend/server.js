@@ -6,6 +6,7 @@ import helmet from "helmet";
 import { verifyToken } from "./middleware/authMiddleware.js";
 import authRoutes from "./routes/authRoutes.js";
 import materialsRoutes from "./routes/materialsRoutes.js";
+import expensesRoutes from "./routes/expensesRoutes.js";
 
 const app = express();
 const PORT = 5000;
@@ -28,6 +29,7 @@ app.use(cookieParser());
 // Регистриране на раутовете (Всички ще започват с /api/...)
 app.use("/api/auth", authRoutes);
 app.use("/api/materials", materialsRoutes);
+app.use("/api/expenses", expensesRoutes);
 
 // Защитен роут, който изисква валиден токен
 app.get("/api/dashboard", verifyToken, (req, res) => {
