@@ -2,8 +2,10 @@ import { Box, Button, Container, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import api from "../api/axiosConfig";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [message, setMessage] = useState("");
 
@@ -29,9 +31,26 @@ export default function Dashboard() {
         <Typography variant="body1" sx={{ mb: 3 }}>
           Влезли сте като: <strong>{user?.email}</strong>
         </Typography>
-        <Button variant="outlined" color="error" onClick={logout}>
+        <Button variant="outlined" color="error" onClick={logout} sx={{ mr: 2 }}>
           Изход
         </Button>
+
+        <Button
+          variant="contained"
+          onClick={() => navigate("/materials")}
+          sx={{ mr: 2 }}
+        >
+          Материали
+        </Button>
+
+        <Button
+          variant="contained"
+          onClick={() => navigate("/expenses")}
+          sx={{ mr: 4 }}
+        >
+          Разходи
+        </Button>
+
       </Box>
     </Container>
   );

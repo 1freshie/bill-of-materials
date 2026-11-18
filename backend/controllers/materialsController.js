@@ -15,14 +15,23 @@ export async function getMaterials(req, res) {
       whereClause.MATERIAL_DESCRIPTION = { contains: description };
 
     // Извличаме материалите и броим колко пъти се срещат в BOM (с колко изделия са свързани)
-    const materials = await prisma.mATERIALS.findMany({
-      where: whereClause,
-      include: {
-        _count: {
-          select: { BOM: true }, // Връща число в полето _count.BOM
-        },
+   const materials = await prisma.mATERIALS.findMany({
+  where: whereClause,
+  include: {
+    _count: {
+      select: { BOM: true },
+    },
+    PRICE_LIST: {
+      orderBy: {
+        PRICE_DATE: "desc",
       },
-    });
+      take: 1,
+    },
+  },
+  orderBy: {
+    MATERIAL_ID: "asc",
+  },
+});
 
     res.json(materials);
   } catch (error) {
