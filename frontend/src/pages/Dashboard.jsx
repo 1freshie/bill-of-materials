@@ -46,10 +46,19 @@ export default function Dashboard() {
         <Button
           variant="contained"
           onClick={() => navigate("/expenses")}
-          sx={{ mr: 4 }}
+          sx={{ mr: 2 }}
         >
           Разходи
         </Button>
+
+        <Button
+          variant="contained"
+          onClick={() => navigate("/products")}
+          sx={{ mr: 2 }}
+        >
+          Изделия
+        </Button>
+      
 
       </Box>
     </Container>

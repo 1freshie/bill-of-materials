@@ -17,9 +17,11 @@ import {
   TableRow,
   TextField,
   Typography,
+  Box,
 } from "@mui/material";
 
 import api from "../api/axiosConfig";
+import { useNavigate } from "react-router-dom";
 
 export default function Expenses() {
   const [expenses, setExpenses] = useState([]);
@@ -28,6 +30,7 @@ export default function Expenses() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
   // Зареждане на разходите
   const loadExpenses = async () => {
@@ -67,14 +70,25 @@ export default function Expenses() {
   };
 
   return (
-    <Container maxWidth="md" sx={{ mt: 5 }}>
-      <Typography variant="h4" fontWeight="bold" sx={{ mb: 1 }}>
-        Номенклатура на разходи
-      </Typography>
+    <Container maxWidth="xl" sx={{ mt: 5 }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", mb: 3 }}>
+        <Box>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => navigate("/dashboard")}
+            sx={{ mb: 1 }}
+          >
+            ← Назад към Табло
+          </Button>
+          <Typography variant="h4">Разходи</Typography>
+          
+        </Box>
 
-      <Typography color="text.secondary" sx={{ mb: 3 }}>
-        Преглед и добавяне на видове разходи
-      </Typography>
+        <Button variant="contained" onClick={() => setOpen(true)}>
+          + Добави разход
+        </Button>
+      </Box>
 
       {error && (
         <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError("")}>
@@ -88,13 +102,7 @@ export default function Expenses() {
         </Alert>
       )}
 
-      <Button
-        variant="contained"
-        sx={{ mb: 2 }}
-        onClick={() => setOpen(true)}
-      >
-        + Добави разход
-      </Button>
+     
 
       <TableContainer component={Paper}>
         <Table>

@@ -9,6 +9,7 @@ import {
 import api from "../api/axiosConfig";
 import MaterialDialog from "../components/MaterialDialog";
 import MaterialPriceDialog from "../components/MaterialPriceDialog";
+import { useNavigate } from "react-router-dom";
 
 export default function Materials() {
   const [materials, setMaterials] = useState([]);
@@ -19,6 +20,7 @@ export default function Materials() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [priceMaterial, setPriceMaterial] = useState(null);
+  const navigate = useNavigate();
 
   // Зареждане на материалите
   const loadMaterials = useCallback(async () => {
@@ -66,8 +68,19 @@ export default function Materials() {
 
   return (
     <Container maxWidth="xl" sx={{ mt: 5 }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
-        <Typography variant="h4">Материали</Typography>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", mb: 3 }}>
+          <Box>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => navigate("/dashboard")}
+            sx={{ mb: 1 }}
+          >
+            ← Назад към Табло
+          </Button>
+          <Typography variant="h4">Материали</Typography>
+          
+        </Box>
 
         <Button variant="contained" onClick={handleAdd}>
           + Добави материал

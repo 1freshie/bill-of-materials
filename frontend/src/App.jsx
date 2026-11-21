@@ -5,6 +5,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Materials from "./pages/Materials";
 import Expenses from "./pages/Expenses";
+import Products from "./pages/Products";
 
 function App() {
   return (
@@ -42,7 +43,16 @@ function App() {
               </ProtectedRoute>
             }
           />
-
+          
+          <Route
+            path="/products"
+            element={
+              <ProtectedRoute>
+                <Products />
+              </ProtectedRoute>
+            }
+          />
+          
         </Routes>
       </AuthProvider>
     </BrowserRouter>
