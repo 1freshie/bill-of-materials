@@ -7,7 +7,7 @@ import { verifyToken } from "./middleware/authMiddleware.js";
 import authRoutes from "./routes/authRoutes.js";
 import materialsRoutes from "./routes/materialsRoutes.js";
 import expensesRoutes from "./routes/expensesRoutes.js";
-
+import productsRoutes from "./routes/productsRoutes.js";
 const app = express();
 const PORT = 5000;
 
@@ -30,6 +30,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/materials", materialsRoutes);
 app.use("/api/expenses", expensesRoutes);
+app.use("/api/products", productsRoutes);
 
 // Защитен роут, който изисква валиден токен
 app.get("/api/dashboard", verifyToken, (req, res) => {
